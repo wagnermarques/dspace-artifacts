@@ -1,0 +1,24 @@
+# vars.yml
+
+# Docker container names
+backend_container_name: "dspace-dev-backend-container"
+database_container_name: "dspace-dev-database-container"
+
+# Docker image names and versions
+backend_image_name: "dspace-dev-backend"
+#backend_image_version: "7.6"
+database_image_name: "dspace-dev-database"
+#database_image_version: "7.6"
+
+# Ports for container mapping
+backend_container_ports:
+  - "8080:8080"
+
+# Docker network name
+docker_network_name: "commondockernetwork-dev"
+
+# Git repository details
+backend_git_repo: "https://github.com/wagnermarques/DSpace.git"
+backend_git_version: "dspace-7.6"
+angular_git_repo: "https://github.com/wagnermarques/dspace-angular.git"
+angular_git_version: "dspace-7.6"

@@ -1,0 +1,80 @@
+# playbook.yml
+#https://github.com/DSpace/DSpace/blob/main/dspace/src/main/docker-compose/README.md
+#https://github.com/DSpace/dspace-angular/blob/main/docker/README.md
+- name: Play_ Setup this playbook dependencies to run
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Install Docker SDK for Python
+      pip:
+        name: docker
+
+- name: Play_ Git Clone DSpace Backend Repository
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - vars-dev.yml
+  tasks:
+    - name: Git Clone DSpace Backend Repository
+      git:
+        repo: "{{ backend_git_repo }}"
+        dest: "{{ playbook_dir }}/sources/dspace-backend"
+        #version: "{{ backend_git_version }}"
+
+- name: Play_ Git Clone DSpace Angular Repository
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - vars-dev.yml
+  tasks:
+    - name: Git Clone DSpace Angular Repository
+      git:
+        repo: "{{ angular_git_repo }}"
+        dest: "{{ playbook_dir }}/sources/dspace-angular"
+        #version: "{{ angular_git_version }}"
+        
+- name: Play_ Build and Start DSpace Backend Container
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - vars-dev.yml
+  tasks:
+    - name: Build and Start DSpace Backend Container with database from dspace-backend docker-compose.yml
+      docker_compose:
+        project_src: "{{ playbook_dir }}/sources/dspace-backend"
+        project_name: "dspace-backend"
+        state: present
+        files:
+          - docker-compose.yml
+        build: yes
+        restarted: yes
+        remove_orphans: yes 
+
+
+- name: Play_ Build and Start DSpace cli
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - vars-dev.yml
+  tasks:
+    - name: Build and Start DSpace Database Container
+      docker_compose:
+        project_src: "{{ playbook_dir }}/sources/dspace-backend"
+        project_name: "dspace-database"
+        state: present
+        files:
+          - docker-compose-cli.yml
+        build: yes
+        restarted: yes
+        remove_orphans: yes
+        
+- name: Create Docker Network
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - vars-dev.yml
+  tasks:
+    - name: Create Docker Network
+      docker_network:
+        name: "{{ docker_network_name }}"
+        
