@@ -9,6 +9,7 @@
       pip:
         name: docker
 
+### Cloning Dspace
 - name: Play_ Git Clone DSpace Backend Repository
   hosts: localhost
   gather_facts: false
@@ -32,7 +33,8 @@
         repo: "{{ angular_git_repo }}"
         dest: "{{ playbook_dir }}/sources/dspace-angular"
         #version: "{{ angular_git_version }}"
-        
+
+###Build containers
 - name: Play_ Build and Start DSpace Backend Container
   hosts: localhost
   gather_facts: false
@@ -64,6 +66,23 @@
         state: present
         files:
           - docker-compose-cli.yml
+        build: yes
+        restarted: yes
+        remove_orphans: yes
+
+- name: Play_ Build and Start DSpace Angular
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - vars-dev.yml
+  tasks:
+    - name: Build and Start DSpace Angular
+      docker_compose:
+        project_src: "{{ playbook_dir }}/sources/dspace-angular/docker"
+        project_name: "dspace-angular"
+        state: present
+        files:
+          - docker-compose.yml
         build: yes
         restarted: yes
         remove_orphans: yes
