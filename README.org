@@ -4,7 +4,7 @@ Esse repositorio tem o objetivo de aprender a usar e customizar o [[dspace.lyras
 
 ** [[./Avisos.org][Disclaimer]]
 
-** [[./instalacao-do-dspace][Instalacao do Dspace]]
+** [[./instalacao-do-dspace.org][Instalacao do Dspace]]
 
 ** [[./comecando-com-dspace.org][Comecando a usar o dspace]]
 

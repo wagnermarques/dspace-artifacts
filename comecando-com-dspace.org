@@ -179,4 +179,4 @@ PostgreSQL 'pgcrypto' extension installed/up-to-date? true (version=1.3)
 FlywayDB Version: 8.5.13
 #+end_example
 
-(todo outros comandos)
+(todo: outros comandos)
