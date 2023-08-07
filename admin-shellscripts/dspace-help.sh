@@ -1,2 +1,5 @@
 #!/bin/bash
-docker start dspace-cli && docker exec -it dspace-cli  /dspace/bin/dspace -h
+
+docker exec -it \
+       dspace \
+       /dspace/bin/dspace -h

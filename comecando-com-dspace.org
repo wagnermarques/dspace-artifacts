@@ -1,0 +1,182 @@
+#+Title: Default Dspace for Devs
+
+Considerando que vc ja instalou o dspace...
+
+Primeiro acesso a interface feita com angular
+
+Depois o Hall Broser
+
+* UI Angular Access
+  http://localhost:4000/home
+
+
+* The Hall Browser
+   http://localhost:8080/server/#/server/api
+
+Nessa interface do Hall Browser da pra ver qual a versao do dspace
+estamos utilizando no momento
+
+#+NAME:tail dspace log
+#+BEGIN_SRC javascript :session s1 :results output :exports both
+{
+  "dspaceUI": "http://localhost:4000",
+  "dspaceName": "DSpace Started with Docker Compose",
+  "dspaceServer": "http://localhost:8080/server",
+  "dspaceVersion": "DSpace 8.0-SNAPSHOT",
+  "type": "root"
+}
+
+#+END_SRC
+
+
+* Criando um usuario admin pra comecar
+
+Pra poder logar, vc precisa criar um usuario admin. Pra isso use o
+comando abaixo.
+
+
+#+NAME: docker exec -it dspace /dspace/bin/dspace create-administrator -e wagner.franca@unesp.br -p dspace
+#+BEGIN_SRC shell :session s1 :results output :exports both
+[wgn@fedora shellscripts]$ docker exec -it dspace /dspace/bin/dspace create-administrator
+Creating an initial administrator account
+E-mail address: <email>
+First name: <yourfirstname>
+Last name: <youtlastname>
+Is the above data correct? (y or n): y
+Administrator account created
+#+END_SRC
+
+
+Averiguando se o usuario criado  consta no banco de dados
+
+
+#+NAME: docker exec -it dspacedb psql -W -Udspace -ddspace -c "select eperson_id,netid, email from eperson"
+#+BEGIN_SRC shell :session s1 :results output :exports both
+[wgn@fedora shellscripts]$ docker exec -it dspacedb psql -W -Udspace -ddspace -c "select eperson_id,netid, email from eperson"
+Password: 
+ eperson_id | netid |         email          
+------------+-------+------------------------
+            |       | youremail
+(1 row)
+
+[wgn@fedora shellscripts]$ 
+
+#+END_SRC
+
+
+* Usando a GUI pra tarefas básicas
+
+(todo)
+
+
+* Tarefas Basicas pra entender o funcionamento do dspace
+
+** Tail Dspace Log
+#+NAME:tail dspace log
+#+BEGIN_SRC shell :session s1 :results output :exports both
+  docker exec -it dspace tail -f /dspace/log/dspace.log
+#+END_SRC
+
+Nos logs vai dar pra ter uma ideia muito clara dos endpoints que o
+back end possue caso vc queira interagir com o dspace programaticamente.
+
+Pra ver os endpoints use a gui do angular e olhe nos logs simultaneamente.
+
+
+* Arquivos de configuracao do dspace
+** /dspace/config/
+   essa pasta � montada como bind [ONDE_VC_CLONOU]/build/sources/dspace-backend
+
+   Portanto alteracoes na sua pasta ja se reflete dentro do container.
+
+   restarte o container para as alteracoes terem efeito
+
+   docker restart dspace
+
+** Algumas configuracoes especificas
+
+(todo)
+      
+*** authenticate and authorization
+/dspace/config/modules/authentication-password.cfg
+
++ *self-registration*
+controls whether or not users are allowed to register themselves with DSpace. If this property is set to false, then only administrators will be able to create new users.
+
+The second section, domain.valid, allows you to specify a list of domains that are allowed to self-register. For example, if you set this property to example.com, then only users with email addresses ending in @example.com will be allowed to register themselves.
+
+The third section, login.specialgroup, allows you to specify a group that all users who log in using the password authentication system will be automatically added to. This is useful if you want to create a group made up of all internal authenticated users.
+
+The fourth section, digestAlgorithm, allows you to specify the algorithm that will be used to hash passwords. The default algorithm is SHA-512, but you can choose any algorithm that is supported by the Java MessageDigest class.
+
+The fifth section, regex-validation.pattern, allows you to specify a regular expression that will be used to validate passwords. This regular expression can be used to enforce minimum password strength requirements.
+
+
+* Acessando o banco de dados
+
+Precisa ter o cliente do postgresql instalado na maquina
+
+** Instalando cliente pgsql do postgresql (Fedora)
+#+NAME: sudo dnf install postgresql python3-pygresql
+#+BEGIN_SRC shell :session s1 :results output :exports both
+sudo dnf install postgresql python3-pygresql
+#+END_SRC
+
+#+NAME: pgsl -V 2
+#+BEGIN_SRC shell :session s1 :results output :exports both
+psql -V
+#+END_SRC
+
+#+RESULTS: pgsl -V 2
+: psql (PostgreSQL) 15.1
+
+
+#+NAME:  docker exec -it dspacedb psql -W -Udspace -ddspace
+#+BEGIN_SRC shell :session s1 :results output :exports both
+ docker exec -it dspacedb psql -W -Udspace -ddspace
+#+END_SRC
+
+#+RESULTS: 
+: psql: opção inválida -- “u”
+: psql: hint: Try "psql --help" for more information.
+
+
+
+** Instalando cliente do postgresql (ubuntu)
+
+
+
+
+
+
+#+NAME: asdf
+#+BEGIN_SRC shell :session s1 :results output :exports both
+pgs
+#+END_SRC
+
+
+
+
+* Explorando cliente do dspace (dspace command)
+** Testando se a conexao com o banco ta ok
+#+NAME: docker exec -it dspace /dspace/bin/dspace database test
+#+BEGIN_SRC shell :session s1 :results output :exports both
+  docker exec -it dspace /dspace/bin/dspace database test
+#+END_SRC
+
+#+RESULTS: docker exec -it dspace /dspace/bin/dspace database test
+#+begin_example
+Attempting to connect to database
+Connected successfully!
+
+Database Type: postgres
+Database URL: jdbc:postgresql://dspacedb:5432/dspace
+Database Schema: public
+Database Username: dspace
+Database Software: PostgreSQL version 13.11 (Debian 13.11-1.pgdg120+1)
+Database Driver: PostgreSQL JDBC Driver version 42.6.0
+PostgreSQL 'pgcrypto' extension installed/up-to-date? true (version=1.3)
+FlywayDB Version: 8.5.13
+#+end_example
+
+(todo outros comandos)

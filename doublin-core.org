@@ -1,0 +1,29 @@
+#+Title: Introducao ao Doublin Core 
+
+O dspace foi desenvolvido pra trabalhar com doublin core records.
+
+
+(Todo) Estruturar melhor essa indroducao ao doubling core
+
+* Learn about Doublin Core
+to learn https://www.dublincore.org/themes/learning/
+
+Anots...
+
+schema
+schema=MESH
+
+https://www.dublincore.org/themes/community/
+
+https://www.dublincore.org/groups/education-committee/
+
+* Doublin Core Abstract Model
+  https://www.dublincore.org/specifications/dublin-core/abstract-model/
+
+
+* Doublin Core Educational
+  https://dcmi.github.io/education/
+
+
+  
+

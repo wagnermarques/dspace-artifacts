@@ -10,29 +10,31 @@
         name: docker
 
 ### Cloning Dspace
-- name: Play_ Git Clone DSpace Backend Repository
-  hosts: localhost
-  gather_facts: false
-  vars_files:
-    - vars-dev.yml
-  tasks:
-    - name: Git Clone DSpace Backend Repository
-      git:
-        repo: "{{ backend_git_repo }}"
-        dest: "{{ playbook_dir }}/sources/dspace-backend"
-        #version: "{{ backend_git_version }}"
-
-- name: Play_ Git Clone DSpace Angular Repository
-  hosts: localhost
-  gather_facts: false
-  vars_files:
-    - vars-dev.yml
-  tasks:
-    - name: Git Clone DSpace Angular Repository
-      git:
-        repo: "{{ angular_git_repo }}"
-        dest: "{{ playbook_dir }}/sources/dspace-angular"
-        #version: "{{ angular_git_version }}"
+### a gente so precisa fazer uma vez
+### desomentar somente se vc tiver que fazer o clone de novo
+#- name: Play_ Git Clone DSpace Backend Repository
+#  hosts: localhost
+#  gather_facts: false
+#  vars_files:
+#    - vars-dev.yml
+#  tasks:
+#    - name: Git Clone DSpace Backend Repository
+#      git:
+#        repo: "{{ backend_git_repo }}"
+#        dest: "{{ playbook_dir }}/sources/dspace-backend"
+#        #version: "{{ backend_git_version }}"##
+#
+#- name: Play_ Git Clone DSpace Angular Repository
+#  hosts: localhost
+#  gather_facts: false
+#  vars_files:
+#    - vars-dev.yml
+#  tasks:
+#    - name: Git Clone DSpace Angular Repository
+#      git:
+#        repo: "{{ angular_git_repo }}"
+#        dest: "{{ playbook_dir }}/sources/dspace-angular"
+#        #version: "{{ angular_git_version }}"
 
 ###Build containers
 - name: Play_ Build and Start DSpace Backend Container

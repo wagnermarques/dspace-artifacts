@@ -1,0 +1,9 @@
+#+Title: Avisos
+
+Utilize esse repositorio por sua conta e risco.
+
+Este repositorio destina a desenvolvedores, ainda nao tem material
+para por em producao um dspace
+
+
+https://github.com/DSpace/DSpace/tree/main/dspace/src/main/docker-compose

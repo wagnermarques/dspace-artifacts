@@ -1,125 +1,16 @@
 #+Title: Demanda DSpace
 
-* pre requisitos
-  + ansible
-  + docker e docker-compose
-  + git
+Esse repositorio tem o objetivo de aprender a usar e customizar o [[dspace.lyrasis.org][dspace]].
 
+** [[./Avisos.org][Disclaimer]]
 
-* Rodando o Dspace 
+** [[./instalacao-do-dspace][Instalacao do Dspace]]
 
-** Clone este repositorio em uma pasta de sua escolha
+** [[./comecando-com-dspace.org][Comecando a usar o dspace]]
 
-#+NAME: git clone
-#+BEGIN_SRC shell :session s1 :results output :exports code
-  cd /home/wgn/mnt/ext4/env-Projects
-  git clone https://github.com/wagnermarques/dspace-artifacts.git
-  cd dspace-artifacts
-#+END_SRC
+* Customizar schema de metadados
+** Conceitos Iniciais Indispensaveis
+*** [[./doublin-core.org][Doublin Core]]
 
-#+RESULTS: git clone
-: 
-: Cloning into 'dspace-artifacts'...
-: remote: Enumerating objects: 8, done.
-: (1/8)        remote: Counting objects:  25% (2/8)        remote: Counting objects:  37% (3/8)        remote: Counting objects:  50% (4/8)        remote: Counting objects:  62% (5/8)        remote: Counting objects:  75% (6/8)        remote: Counting objects:  87% (7/8)        remote: Counting objects: 100% (8/8)        remote: Counting objects: 100% (8/8), done.
-: (1/7)        remote: Compressing objects:  28% (2/7)        remote: Compressing objects:  42% (3/7)        remote: Compressing objects:  57% (4/7)        remote: Compressing objects:  71% (5/7)        remote: Compressing objects:  85% (6/7)        remote: Compressing objects: 100% (7/7)        remote: Compressing objects: 100% (7/7), done.        
-: remote: Total 8 (delta 0), reused 8 (delta 0), pack-reused 0
-: (1/8)Receiving objects:  25% (2/8)Receiving objects:  37% (3/8)Receiving objects:  50% (4/8)Receiving objects:  62% (5/8)Receiving objects:  75% (6/8)Receiving objects:  87% (7/8)Receiving objects: 100% (8/8)Receiving objects: 100% (8/8), done.
-: [wgn@fedora dspace-artifacts]$ [0m[01;34mbuild[0m
-
-** Rode o playbook do ansible
-
-Rode o playbook do jeito mais basico mesmo:
-
-#+NAME:ansible-playbook
-#+BEGIN_SRC shell :session s1 :results output :exports both
-  cd /home/wgn/mnt/ext4/env-Projects/infra-dspace-server/build
-  ansible-playbook playbook.yml
-#+END_SRC
-
-#+RESULTS: ansible-playbook
-#+begin_example
-
-[wgn@fedora build]$ [WARNING]: provided hosts list is empty, only localhost is available. Note that
-the implicit localhost does not match 'all'
-
-PLAY [Play_ Setup this playbook dependencies to run] ***************************
-
-TASK [Install Docker SDK for Python] *******************************************
-ok: [localhost]
-
-PLAY [Play_ Git Clone DSpace Backend Repository] *******************************
-
-TASK [Git Clone DSpace Backend Repository] *************************************
-ok: [localhost]
-
-PLAY [Play_ Git Clone DSpace Angular Repository] *******************************
-
-TASK [Git Clone DSpace Angular Repository] *************************************
-ok: [localhost]
-
-PLAY [Play_ Build and Start DSpace Backend Container] **************************
-
-TASK [Build and Start DSpace Backend Container with database from dspace-backend docker-compose.yml] ***
-changed: [localhost]
-
-PLAY [Play_ Build and Start DSpace cli] ****************************************
-
-TASK [Build and Start DSpace Database Container] *******************************
-changed: [localhost]
-
-PLAY [Play_ Build and Start DSpace Angular] ************************************
-
-TASK [Build and Start DSpace Angular] ******************************************
-changed: [localhost]
-
-PLAY [Create Docker Network] ***************************************************
-
-TASK [Create Docker Network] ***************************************************
-ok: [localhost]
-
-PLAY RECAP *********************************************************************
-localhost                  : ok=7    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
-#+end_example
-
-
- visualizar os containers rodando...
-
-
-#+NAME: docker ps
-#+BEGIN_SRC shell :session s1 :results output :exports both
-docker ps
-#+END_SRC
-
-#+RESULTS: docker ps
-: CONTAINER ID   IMAGE                                    COMMAND                  CREATED          STATUS         PORTS                                                                                                                             NAMES
-: 4000/tcp, :::4000->4000/tcp, 0.0.0.0:9876->9876/tcp, :::9876->9876/tcp                                              dspace-angular
-: 8000/tcp, :::8000->8000/tcp, 0.0.0.0:8009->8009/tcp, :::8009->8009/tcp, 0.0.0.0:8080->8080/tcp, :::8080->8080/tcp   dspace
-: 8983/tcp, :::8983->8983/tcp                                                                                         dspacesolr
-: 5432/tcp, :::5432->5432/tcp                                                                                         dspacedb
-
-
-por algum motivo que ainda nao sei dizer o container dspace-cli nao
-fica ligado direto... precisa ver se ta funcionando direitinho
-ainda...
-
-
-#+NAME: docker ps -a | grep dspace
-#+BEGIN_SRC shell :session s1 :results output :exports both
-docker ps -a | grep dspace-cli
-#+END_SRC
-
-#+RESULTS: docker ps -a | grep dspace
-: 67203337352b   dspace/dspace-cli:latest                 "/dspace/bin/dspace …"   6 hours ago      Exited (1) 4 minutes ago                                                                                                                                     dspace-cli
-
-
-
-* Explorando o dspace
-
-#+NAME: ./dspace-help.sh
-#+BEGIN_SRC shell :session s1 :results output :exports both
-  cd /home/wgn/mnt/ext4/env-Projects/infra-dspace-server/admin-shellscripts
-  ./dspace-help.sh
-#+END_SRC
 
 
